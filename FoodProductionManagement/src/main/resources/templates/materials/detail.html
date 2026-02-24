@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base}">
+
+<head>
+	<title>原料詳細</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+
+		<!-- タイトル -->
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h2 class="fw-bold">原料詳細</h2>
+			<a th:href="@{/materials}" class="btn btn-secondary">
+				一覧へ戻る
+			</a>
+		</div>
+
+		<!-- 原料情報カード -->
+		<div class="card shadow-sm mb-4">
+			<div class="card-body">
+
+				<h4 class="card-title mb-3" th:text="${material.materialName}">
+				</h4>
+
+				<p class="fs-5 mb-0">
+					現在庫数：
+					<span th:text="${material.stockQuantity}"
+						th:classappend="${material.stockQuantity <= 0} ? ' text-danger fw-bold' : ' text-success fw-bold'">
+					</span>
+				</p>
+
+			</div>
+		</div>
+
+		<!-- 履歴タイトル -->
+		<h4 class="mb-3">入出庫履歴</h4>
+
+		<!-- 履歴テーブル -->
+		<div class="card shadow-sm">
+			<div class="card-body p-0">
+
+				<table class="table table-striped table-hover mb-0">
+					<thead class="table-light">
+						<tr>
+							<th>入出庫日</th>
+							<th>入出庫区分</th>
+							<th class="text-end">増減数</th>
+						</tr>
+					</thead>
+
+					<tbody>
+
+						<!-- 履歴なし -->
+						<tr th:if="${#lists.isEmpty(historyList)}">
+							<td colspan="3" class="text-center text-muted py-4">
+								履歴はありません
+							</td>
+						</tr>
+
+						<!-- 履歴あり -->
+						<tr th:each="h : ${historyList}">
+							<td th:text="${#temporals.format(h.changeDate, 'yyyy-MM-dd HH:mm:ss')}">
+							</td>
+
+							<td th:text="${h.changeType.label}">
+							</td>
+
+							<td class="text-end"
+								th:text="${h.stockQuantity > 0 ? '+' + h.stockQuantity : h.stockQuantity}"
+								th:classappend="${h.stockQuantity > 0} ? ' text-success fw-bold' : ' text-danger fw-bold'">
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+
+	</div>
+
+	</div>
+</body>
+
+</html>

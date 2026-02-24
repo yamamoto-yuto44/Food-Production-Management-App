@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base}">
+
+<head>
+	<title>ホーム</title>
+</head>
+
+<section layout:fragment="content">
+
+	<h1>ホーム</h1>
+
+	<div class="menu-container">
+
+		<a th:href="@{/productions/create}" class="menu-card">
+			当日の生産を記録
+		</a>
+
+		<a th:href="@{/productions}" class="menu-card">
+			生産記録の確認・修正
+		</a>
+
+		<a th:href="@{/materials}" class="menu-card">
+			原料在庫数の確認・発注
+		</a>
+		
+		<a th:href="@{/recipes}" class="menu-card">
+		    レシピ一覧を見る
+		</a>
+
+	</div>
+
+</section>
+
+</html>

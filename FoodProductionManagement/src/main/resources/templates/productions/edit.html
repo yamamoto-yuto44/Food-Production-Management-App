@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base}">
+
+<head>
+	<title>製造記録修正</title>
+</head>
+
+<body>
+	<div layout:fragment="content" class="container mt-4">
+
+		<h1 class="mb-4">製造記録修正</h1>
+
+		<!-- エラーメッセージ -->
+		<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+		<div class="card shadow-sm">
+			<div class="card-body">
+
+				<form th:action="@{/productions/update}" th:object="${production}" method="post">
+
+					<input type="hidden" th:field="*{id}" />
+
+					<!-- 製造日 -->
+					<div class="mb-3">
+						<label for="productionDate" class="form-label">製造日</label>
+						<input type="date" id="productionDate" th:field="*{productionDate}" class="form-control">
+						<div th:if="${#fields.hasErrors('productionDate')}" th:errors="*{productionDate}"
+							class="text-danger small">
+						</div>
+					</div>
+
+					<!-- 商品名 -->
+					<div class="mb-3">
+						<label for="productId" class="form-label">商品名</label>
+						<select id="productId" th:field="*{productId}" class="form-select">
+							<option value="">選択してください</option>
+							<option th:each="p : ${products}" th:value="${p.id}" th:text="${p.productName}">
+							</option>
+						</select>
+						<div th:if="${#fields.hasErrors('productId')}" th:errors="*{productId}"
+							class="text-danger small">
+						</div>
+					</div>
+
+					<!-- 数量 -->
+					<div class="mb-3">
+						<label for="quantity" class="form-label">数量</label>
+						<input type="number" id="quantity" th:field="*{quantity}" class="form-control">
+						<div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="text-danger small">
+						</div>
+					</div>
+
+					<!-- ボタン -->
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-warning">
+							修正確定
+						</button>
+
+						<a th:href="@{/productions}" class="btn btn-secondary">
+							生産一覧へ戻る
+						</a>
+					</div>
+
+				</form>
+
+			</div>
+		</div>
+
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base}">
+
+<head>
+	<title>発注管理</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<h1>発注管理</h1>
+
+		<!-- ========================= -->
+		<!-- メッセージ表示 -->
+		<!-- ========================= -->
+		<div th:if="${error}" style="color:red; margin-bottom:15px;">
+			<span th:text="${error}"></span>
+		</div>
+
+		<!-- ========================= -->
+		<!-- 発注登録フォーム -->
+		<!-- ========================= -->
+		<div style="border:1px solid #ccc; padding:20px; width:400px; margin-bottom:40px;">
+			<h2>新規発注</h2>
+
+			<form th:action="@{/orders/create}" method="post">
+
+				<div style="margin-bottom:10px;">
+					<label>原料：</label>
+					<select name="materialId" required>
+						<option value="">選択してください</option>
+						<option th:each="material : ${materials}" th:value="${material.id}" th:text="${material.name}">
+						</option>
+					</select>
+				</div>
+
+				<div style="margin-bottom:10px;">
+					<label>数量：</label>
+					<input type="number" name="quantity" min="1" required>
+				</div>
+
+				<button type="submit" style="padding:6px 12px; background:#2196F3; color:white; border:none;">
+					発注する
+				</button>
+			</form>
+		</div>
+
+		<!-- ========================= -->
+		<!-- 未入荷一覧 -->
+		<!-- ========================= -->
+		<h2>未入荷発注一覧</h2>
+
+		<table style="border-collapse:collapse; width:100%;">
+			<thead>
+				<tr style="background:#f2f2f2;">
+					<th style="border:1px solid #ccc; padding:8px;">ID</th>
+					<th style="border:1px solid #ccc; padding:8px;">原料名</th>
+					<th style="border:1px solid #ccc; padding:8px;">発注数量</th>
+					<th style="border:1px solid #ccc; padding:8px;">発注日</th>
+					<th style="border:1px solid #ccc; padding:8px;">操作</th>
+				</tr>
+			</thead>
+
+			<tbody>
+
+				<tr th:if="${#lists.isEmpty(orders)}">
+					<td colspan="5" style="border:1px solid #ccc; padding:8px; text-align:center;">
+						未入荷の発注はありません
+					</td>
+				</tr>
+
+				<tr th:each="order : ${orders}">
+					<td style="border:1px solid #ccc; padding:8px;" th:text="${order.id}"></td>
+
+					<td style="border:1px solid #ccc; padding:8px;" th:text="${order.material.name}"></td>
+
+					<td style="border:1px solid #ccc; padding:8px;" th:text="${order.orderQuantity}"></td>
+
+					<td style="border:1px solid #ccc; padding:8px;" th:text="${order.orderDate}"></td>
+
+					<td style="border:1px solid #ccc; padding:8px; text-align:center;">
+
+						<form th:action="@{/orders/receive/{id}(id=${order.id})}" method="post" style="display:inline;">
+
+							<button type="submit"
+								style="padding:5px 10px; background:#4CAF50; color:white; border:none;">
+								入荷処理
+							</button>
+
+						</form>
+
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+
+	</div>
+
+</body>
+
+</html>

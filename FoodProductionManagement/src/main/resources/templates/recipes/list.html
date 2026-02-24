@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base}">
+
+<head>
+	<title>レシピ一覧</title>
+</head>
+
+<body>
+	<div layout:fragment="content" class="container mt-4">
+
+		<!-- タイトル＋新規登録ボタン -->
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h1 class="fw-bold">レシピ一覧</h1>
+
+			<div class="d-flex gap-2">
+				<a th:href="@{/recipes/create}" class="btn btn-primary">
+					＋ レシピ登録
+				</a>
+				<a th:href="@{/}" class="btn btn-outline-secondary">
+					ホームに戻る
+				</a>
+			</div>
+		</div>
+
+		<!-- データなし -->
+		<div th:if="${#lists.isEmpty(recipes)}" class="alert alert-info">
+			レシピが登録されていません
+		</div>
+
+		<!-- 商品ごと -->
+		<div th:each="group : ${recipes}" class="card shadow-sm mb-3">
+
+			<div class="card-header bg-light">
+				<strong th:text="${group.productName}"></strong>
+			</div>
+
+			<div class="card-body p-0">
+
+				<table class="table table-striped table-hover mb-0">
+					<thead class="table-light">
+						<tr>
+							<th>原料</th>
+							<th class="text-end">必要数量</th>
+						</tr>
+					</thead>
+
+					<tbody>
+
+						<tr th:each="item : ${group.items}">
+							<td th:text="${item.materialName}"></td>
+							<td class="text-end fw-semibold" th:text="${item.requiredQuantity}">
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+
+	</div>
+</body>
+
+</html>

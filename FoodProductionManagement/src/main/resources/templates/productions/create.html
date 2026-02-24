@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base}">
+
+<head>
+	<title>当日の生産登録</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="container mt-4">
+
+			<!-- タイトル -->
+			<div class="d-flex justify-content-between align-items-center mb-4">
+				<h2 class="fw-bold">当日の生産登録</h2>
+				<a th:href="@{/}" class="btn btn-outline-secondary">
+					ホームへ戻る
+				</a>
+			</div>
+
+			<!-- カード -->
+			<div class="card shadow-sm">
+				<div class="card-body">
+
+					<!-- システムエラー -->
+					<div th:if="${error}" class="alert alert-danger" th:text="${error}">
+					</div>
+
+					<form th:action="@{/productions}" th:object="${production}" method="post">
+
+						<!-- 製造日 -->
+						<div class="mb-3">
+							<label for="productionDate" class="form-label">
+								製造日
+							</label>
+
+							<input type="date" id="productionDate" th:field="*{productionDate}" class="form-control"
+								th:classappend="${#fields.hasErrors('productionDate')} ? ' is-invalid'">
+
+							<div class="invalid-feedback" th:if="${#fields.hasErrors('productionDate')}"
+								th:errors="*{productionDate}">
+							</div>
+						</div>
+
+						<!-- 商品名 -->
+						<div class="mb-3">
+							<label for="productId" class="form-label">
+								商品名
+							</label>
+
+							<select id="productId" th:field="*{productId}" class="form-select"
+								th:classappend="${#fields.hasErrors('productId')} ? ' is-invalid'">
+
+								<option value="">-- 選択してください --</option>
+
+								<option th:each="p : ${products}" th:value="${p.id}" th:text="${p.productName}">
+								</option>
+
+							</select>
+
+							<div class="invalid-feedback" th:if="${#fields.hasErrors('productId')}"
+								th:errors="*{productId}">
+							</div>
+						</div>
+
+						<!-- 数量 -->
+						<div class="mb-4">
+							<label for="quantity" class="form-label">
+								数量（BT数）
+							</label>
+
+							<input type="number" id="quantity" th:field="*{quantity}" min="1" class="form-control"
+								placeholder="例：10" th:classappend="${#fields.hasErrors('quantity')} ? ' is-invalid'">
+
+							<div class="invalid-feedback" th:if="${#fields.hasErrors('quantity')}"
+								th:errors="*{quantity}">
+							</div>
+						</div>
+
+						<!-- ボタン -->
+						<div class="d-flex gap-2">
+							<button type="submit" class="btn btn-success">
+								登録する
+							</button>
+
+							<a th:href="@{/}" class="btn btn-secondary">
+								キャンセル
+							</a>
+						</div>
+
+					</form>
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<form th:action="@{/materials}" th:object="${materialCreateDTO}" method="post">
+
+		<div>
+			<label>原料名</label>
+			<input type="text" th:field="*{materialName}">
+			<div th:errors="*{materialName}"></div>
+		</div>
+
+		<div>
+			<label>初期在庫</label>
+			<input type="number" th:field="*{stockQuantity}">
+			<div th:errors="*{stockQuantity}"></div>
+		</div>
+
+		<div>
+			<label>詳細</label>
+			<textarea th:field="*{description}"></textarea>
+		</div>
+
+		<button type="submit">登録</button>
+	</form>
+
+
+</body>
+
+</html>

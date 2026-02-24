@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base}">
+
+<head>
+	<title>製造一覧</title>
+</head>
+
+<body>
+	<div layout:fragment="content" class="container mt-4">
+
+		<!-- タイトル＋新規登録ボタン -->
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h1 class="fw-bold">製造一覧</h1>
+
+			<div class="d-flex gap-2">
+				<a th:href="@{/productions/create}" class="btn btn-success">
+					＋ 新規登録
+				</a>
+				<a th:href="@{/}" class="btn btn-outline-secondary">
+					ホームに戻る
+				</a>
+			</div>
+		</div>
+
+		<!-- カード -->
+		<div class="card shadow-sm">
+			<div class="card-body p-0">
+
+				<table class="table table-hover table-striped mb-0">
+					<thead class="table-light">
+						<tr>
+							<th>製造日</th>
+							<th>商品名</th>
+							<th class="text-end">数量</th>
+							<th class="text-center" style="width:180px;">操作</th>
+						</tr>
+					</thead>
+
+					<tbody>
+
+						<!-- データなし -->
+						<tr th:if="${#lists.isEmpty(productions)}">
+							<td colspan="4" class="text-center text-muted py-4">
+								製造記録がありません
+							</td>
+						</tr>
+
+						<!-- データあり -->
+						<tr th:each="p : ${productions}">
+							<td th:text="${#temporals.format(p.productionDate, 'yyyy-MM-dd')}">
+							</td>
+
+							<td th:text="${p.productName}">
+							</td>
+
+							<td class="text-end fw-semibold text-primary" th:text="${p.quantity}">
+							</td>
+
+							<td class="text-center">
+								<div class="d-flex justify-content-center gap-2">
+
+									<!-- 修正 -->
+									<a th:href="@{/productions/edit/{id}(id=${p.id})}" class="btn btn-sm btn-warning">
+										修正
+									</a>
+
+									<!-- 削除 -->
+									<form th:action="@{/productions/delete/{id}(id=${p.id})}" method="post"
+										onsubmit="return confirm('削除しますか？');">
+
+										<button type="submit" class="btn btn-sm btn-danger">
+											削除
+										</button>
+
+									</form>
+
+								</div>
+							</td>
+						</tr>
+
+					</tbody>
+
+				</table>
+
+			</div>
+		</div>
+
+	</div>
+</body>
+
+</html>

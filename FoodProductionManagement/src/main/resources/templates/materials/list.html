@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base}">
+
+<head>
+	<title>原料一覧</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+
+		<div class="container mt-4">
+
+			<!-- タイトル -->
+			<div class="d-flex justify-content-between align-items-center mb-4">
+				<h2 class="fw-bold">原料一覧</h2>
+
+				<div>
+					<a th:href="@{/materials/new}" class="btn btn-primary me-2">
+						＋ 新規追加
+					</a>
+
+					<a th:href="@{/}" class="btn btn-outline-secondary">
+						ホームに戻る
+					</a>
+				</div>
+			</div>
+
+			<!-- エラーメッセージ -->
+			<div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}">
+			</div>
+
+			<!-- テーブルカード -->
+			<div class="card shadow-sm">
+				<div class="card-body p-0">
+
+					<table class="table table-hover table-striped mb-0">
+						<thead class="table-light">
+							<tr>
+								<th>原料名</th>
+								<th class="text-end">在庫数</th>
+								<th class="text-center">在庫状態</th>
+								<th class="text-center">削除</th>
+							</tr>
+						</thead>
+
+						<tbody>
+
+							<!-- データなし -->
+							<tr th:if="${#lists.isEmpty(materials)}">
+								<td colspan="3" class="text-center text-muted py-4">
+									原料データがありません
+								</td>
+							</tr>
+
+							<!-- データあり -->
+							<tr th:each="m : ${materials}">
+
+								<!-- 原料名 -->
+								<td>
+									<a th:href="@{/materials/{id}(id=${m.id})}" class="text-decoration-none fw-semibold"
+										th:text="${m.materialName}">
+									</a>
+								</td>
+
+								<!-- 在庫数 -->
+								<td class="text-end" th:text="${m.stockQuantity}"
+									th:classappend="${m.stockQuantity <= 0} ? ' text-danger fw-bold' : ' text-success fw-bold'">
+								</td>
+
+								<!-- 在庫状態 -->
+								<td class="text-center">
+
+									<!-- 在庫不足 -->
+									<span th:if="${m.stockQuantity <= 0}" class="badge bg-danger">
+										在庫切れ
+									</span>
+
+									<!-- 安全在庫未満 -->
+									<span th:if="${m.stockQuantity > 0 and m.belowSafetyStockQuantity}"
+										class="badge bg-warning text-dark">
+										在庫注意
+									</span>
+
+									<!-- 正常 -->
+									<span th:if="${m.stockQuantity > 0 and !m.belowSafetyStockQuantity}"
+										class="badge bg-success">
+										正常
+									</span>
+
+								</td>
+
+								<td class="text-center">
+									<form th:action="@{/materials/{id}/delete(id=${m.id})}" method="post"
+										onsubmit="return confirm('本当に削除しますか？');">
+
+										<button type="submit" class="btn btn-sm btn-outline-danger">
+											削除
+										</button>
+
+									</form>
+								</td>
+
+
+							</tr>
+
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</body>
+
+</html>
