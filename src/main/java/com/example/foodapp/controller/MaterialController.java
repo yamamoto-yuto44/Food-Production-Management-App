@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.foodapp.dto.MaterialCreateDTO;
 import com.example.foodapp.entity.Material;
@@ -19,6 +20,7 @@ import com.example.foodapp.entity.MaterialStockHistory;
 import com.example.foodapp.service.MaterialService;
 
 @Controller
+@RequestMapping("/materials")
 public class MaterialController {
 
 	private final MaterialService materialService;
@@ -28,7 +30,7 @@ public class MaterialController {
 	}
 
 	// 原料一覧表示
-	@GetMapping("/materials")
+	@GetMapping
 	public String list(Model model) {
 
 		List<Material> materials = materialService.findAll();
@@ -38,7 +40,8 @@ public class MaterialController {
 		return "materials/list";
 	}
 
-	@GetMapping("/materials/{id}")
+	// 詳細表示
+	@GetMapping("/{id}")
 	public String detail(@PathVariable Long id, Model model) {
 
 		Material material = materialService.findById(id);
@@ -51,24 +54,14 @@ public class MaterialController {
 		return "materials/detail";
 	}
 
-	@ExceptionHandler(IllegalArgumentException.class)
-	public String handleIllegalArgument(IllegalArgumentException e, Model model) {
-
-		model.addAttribute("errorMessage", e.getMessage());
-
-		// 一覧に戻す
-		List<Material> materials = materialService.findAll();
-		model.addAttribute("materials", materials);
-
-		return "materials/list";
-	}
-
+	// 新規作成画面表示
 	@GetMapping("/create")
 	public String showCreateForm(Model model) {
 		model.addAttribute("materialCreateDTO", new MaterialCreateDTO());
 		return "materials/create";
 	}
 
+	// 新規登録
 	@PostMapping
 	public String create(@Valid @ModelAttribute MaterialCreateDTO dto,
 			BindingResult result,
@@ -83,10 +76,24 @@ public class MaterialController {
 		return "redirect:/materials";
 	}
 
+	// 削除
 	@PostMapping("/{id}/delete")
 	public String delete(@PathVariable Long id) {
 		materialService.delete(id);
 		return "redirect:/materials";
+	}
+
+	// 例外処理
+	@ExceptionHandler(IllegalArgumentException.class)
+	public String handleIllegalArgument(IllegalArgumentException e, Model model) {
+
+		model.addAttribute("errorMessage", e.getMessage());
+
+		// 一覧に戻す
+		List<Material> materials = materialService.findAll();
+		model.addAttribute("materials", materials);
+
+		return "materials/list";
 	}
 
 }

@@ -30,6 +30,13 @@
 						<div class="text-danger small" th:errors="*{stockQuantity}"></div>
 					</div>
 
+					<!-- 安全在庫数 -->
+					<div class="mb-3">
+						<label class="form-label">安全在庫数</label>
+						<input type="number" class="form-control" th:field="*{safetyStock}">
+						<div class="text-danger small" th:errors="*{safetyStock}"></div>
+					</div>
+
 					<!-- ボタン -->
 					<div class="d-flex justify-content-between mt-4">
 						<a th:href="@{/materials}" class="btn btn-outline-secondary">

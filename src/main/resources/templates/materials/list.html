@@ -16,7 +16,7 @@
 				<h2 class="fw-bold">原料一覧</h2>
 
 				<div>
-					<a th:href="@{/materials/new}" class="btn btn-primary me-2">
+					<a th:href="@{/materials/create}" class="btn btn-primary me-2">
 						＋ 新規追加
 					</a>
 
@@ -83,9 +83,7 @@
 									</span>
 
 									<!-- 正常 -->
-									<span th:if="${m.stockQuantity > 0 and !m.belowSafetyStockQuantity}"
-										class="badge bg-success">
-										正常
+									<span th:if="${m.stockQuantity > 0 and !m.belowSafetyStockQuantity}">
 									</span>
 
 								</td>
