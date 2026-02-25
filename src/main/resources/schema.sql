@@ -18,7 +18,7 @@ CREATE TABLE product (
 
 ------material------
 CREATE TABLE material (
-    id BIGINT PRIMARY KEY,
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
     material_name VARCHAR(100) NOT NULL,
     stock_quantity INT NOT NULL,
     safety_stock_quantity INT NOT NULL DEFAULT 0,

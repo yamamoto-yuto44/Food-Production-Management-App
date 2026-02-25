@@ -6,7 +6,7 @@ import com.example.foodapp.entity.Material;
 
 public interface MaterialRepository extends JpaRepository<Material, Long> {
 
-	// 原料名で検索（重複防止などに使える）
+	// 原料名の重複防止
 	boolean existsByMaterialName(String materialName);
 
 }

@@ -130,6 +130,11 @@ public class MaterialService {
 
 	public void create(MaterialCreateDTO dto) {
 
+		// 重複チェック
+		if (materialRepository.existsByMaterialName(dto.getMaterialName())) {
+			throw new IllegalArgumentException("その原料名は既に登録されています");
+		}
+
 		Material material = new Material(
 				dto.getMaterialName(),
 				dto.getStockQuantity(),
@@ -148,6 +153,10 @@ public class MaterialService {
 
 		Material material = materialRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("原料が見つかりません"));
+
+		if (!historyRepository.findByMaterialOrderByChangeDateDesc(material).isEmpty()) {
+			throw new IllegalArgumentException("履歴が存在するため削除できません");
+		}
 
 		materialRepository.delete(material);
 	}
