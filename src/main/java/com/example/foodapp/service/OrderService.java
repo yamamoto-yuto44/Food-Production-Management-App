@@ -79,13 +79,13 @@ public class OrderService {
 				.orElseThrow();
 
 		// 在庫増加
-		material.increaseStock(dto.getOrderQuantity());
+		material.increaseStockQuantity(dto.getOrderQuantity());
 
 		// 履歴追加
 		historyRepository.save(
-				material.createHistory(
-						dto.getOrderQuantity(),
-						ChangeType.ORDER));
+	            material.createHistory(
+	                    dto.getOrderQuantity(),
+	                    ChangeType.ORDER));
 	}
 
 }
