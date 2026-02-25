@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.foodapp.dto.MaterialCreateDTO;
+import com.example.foodapp.dto.MaterialOrderDTO;
 import com.example.foodapp.entity.Material;
 import com.example.foodapp.entity.MaterialStockHistory;
 import com.example.foodapp.service.MaterialService;
@@ -61,6 +62,16 @@ public class MaterialController {
 		return "materials/create";
 	}
 
+	// 発注画面表示
+	@GetMapping("/{id}/order")
+	public String showOrderForm(@PathVariable Long id, Model model) {
+
+		model.addAttribute("materialId", id);
+		model.addAttribute("materialOrderDTO", new MaterialOrderDTO());
+
+		return "materials/order";
+	}
+
 	// 新規登録
 	@PostMapping
 	public String create(@Valid @ModelAttribute MaterialCreateDTO dto,
@@ -82,6 +93,16 @@ public class MaterialController {
 		materialService.delete(id);
 		return "redirect:/materials";
 	}
+	
+	@PostMapping("/{id}/order")
+	public String orderMaterial(@PathVariable Long id,
+	                            @ModelAttribute MaterialOrderDTO dto) {
+
+	    materialService.order(id, dto);
+
+	    return "redirect:/materials/" + id;
+	}
+
 
 	// 例外処理
 	@ExceptionHandler(IllegalArgumentException.class)
