@@ -1,35 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base}">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>原料新規登録</title>
 </head>
 
 <body>
-	<form th:action="@{/materials}" th:object="${materialCreateDTO}" method="post">
+	<div layout:fragment="content">
 
-		<div>
-			<label>原料名</label>
-			<input type="text" th:field="*{materialName}">
-			<div th:errors="*{materialName}"></div>
+		<div class="card shadow-sm mx-auto" style="max-width: 600px;">
+			<div class="card-body">
+
+				<h2 class="mb-4 text-center fw-bold">原料新規登録</h2>
+
+				<form th:action="@{/materials}" th:object="${materialCreateDTO}" method="post">
+
+					<!-- 原料名 -->
+					<div class="mb-3">
+						<label class="form-label">原料名</label>
+						<input type="text" class="form-control" th:field="*{materialName}">
+						<div class="text-danger small" th:errors="*{materialName}"></div>
+					</div>
+
+					<!-- 初期在庫 -->
+					<div class="mb-3">
+						<label class="form-label">初期在庫</label>
+						<input type="number" class="form-control" th:field="*{stockQuantity}">
+						<div class="text-danger small" th:errors="*{stockQuantity}"></div>
+					</div>
+
+					<!-- ボタン -->
+					<div class="d-flex justify-content-between mt-4">
+						<a th:href="@{/materials}" class="btn btn-outline-secondary">
+							戻る
+						</a>
+
+						<button type="submit" class="btn btn-primary">
+							登録
+						</button>
+					</div>
+
+				</form>
+
+			</div>
 		</div>
 
-		<div>
-			<label>初期在庫</label>
-			<input type="number" th:field="*{stockQuantity}">
-			<div th:errors="*{stockQuantity}"></div>
-		</div>
-
-		<div>
-			<label>詳細</label>
-			<textarea th:field="*{description}"></textarea>
-		</div>
-
-		<button type="submit">登録</button>
-	</form>
-
-
+	</div>
 </body>
 
 </html>
