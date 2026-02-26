@@ -160,5 +160,15 @@ public class MaterialService {
 
 		materialRepository.delete(material);
 	}
+	
+	public void increaseStockWithHistory(Material material, int quantity) {
+
+	    material.increaseStockQuantity(quantity);
+
+	    historyRepository.save(
+	        material.createHistory(
+	            quantity,
+	            ChangeType.RECEIVE));
+	}
 
 }

@@ -14,7 +14,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,7 +22,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "orders")
-@Builder
 public class Order {
 
 	@Id
@@ -46,7 +44,7 @@ public class Order {
 
 	private LocalDate receivedDate;
 
-	// 発注登録用コンストラクタ
+	// 発注登録用
 	public Order(Material material, Integer orderQuantity) {
 		if (orderQuantity == null || orderQuantity <= 0) {
 			throw new IllegalArgumentException("発注数は1以上");

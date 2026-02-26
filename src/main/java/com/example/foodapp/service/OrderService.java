@@ -1,6 +1,5 @@
 package com.example.foodapp.service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.transaction.Transactional;
@@ -24,9 +23,7 @@ public class OrderService {
 	private final MaterialRepository materialRepository;
 	private final MaterialService materialService;
 
-	// =========================
 	// 発注登録
-	// =========================
 	public void createOrder(Long materialId, int quantity) {
 
 		if (quantity <= 0) {
@@ -36,12 +33,7 @@ public class OrderService {
 		Material material = materialRepository.findById(materialId)
 				.orElseThrow(() -> new IllegalArgumentException("原料が見つかりません"));
 
-		Order order = Order.builder()
-				.material(material)
-				.orderQuantity(quantity)
-				.status(OrderStatus.ORDERED)
-				.orderDate(LocalDate.now())
-				.build();
+		Order order = new Order(material, quantity);
 
 		orderRepository.save(order);
 	}
@@ -54,17 +46,13 @@ public class OrderService {
 		Order order = orderRepository.findById(orderId)
 				.orElseThrow(() -> new IllegalArgumentException("発注が見つかりません"));
 
-		if (order.getStatus() != OrderStatus.ORDERED) {
-			throw new IllegalStateException("既に処理済みです");
-		}
-
 		// 発注ステータス更新
 		order.markAsReceived();
 
-		// 在庫増加（MaterialServiceに責務委譲）
-		materialService.receive(
-				order.getMaterial(),
-				order.getOrderQuantity());
+		// 在庫増加 + 履歴記録
+        materialService.increaseStockWithHistory(
+                order.getMaterial(),
+                order.getOrderQuantity());
 	}
 	
 	// 未入荷取得
