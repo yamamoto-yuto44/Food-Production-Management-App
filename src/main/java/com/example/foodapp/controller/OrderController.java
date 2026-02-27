@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.foodapp.service.MaterialService;
 import com.example.foodapp.service.OrderService;
 
 import lombok.RequiredArgsConstructor;
@@ -17,30 +18,49 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/orders")
 public class OrderController {
 
-    private final OrderService orderService;
+	private final OrderService orderService;
+	private final MaterialService materialService;
 
-    // 発注一覧（未入荷）
-    @GetMapping
-    public String list(Model model) {
-        model.addAttribute("orders", orderService.getPendingOrders());
-        return "orders/list";
-    }
+	// 発注一覧（未入荷）
+	@GetMapping
+	public String list(Model model) {
+		model.addAttribute("orders", orderService.getPendingOrders());
+		model.addAttribute("materials", materialService.findAll());
+		return "orders/list";
+	}
 
-    // 発注登録
-    @PostMapping("/create")
-    public String create(@RequestParam Long materialId,
-                         @RequestParam int quantity) {
+	// 発注登録
+	@PostMapping("/create")
+	public String create(@RequestParam Long materialId,
+			@RequestParam int quantity,
+			Model model) {
 
-        orderService.createOrder(materialId, quantity);
-        return "redirect:/orders";
-    }
+		try {
+			orderService.createOrder(materialId, quantity);
+		} catch (Exception e) {
+			model.addAttribute("error", e.getMessage());
+			model.addAttribute("orders", orderService.getPendingOrders());
+			model.addAttribute("materials", materialService.findAll());
+			return "orders/list";
+		}
 
-    // 入荷処理
-    @PostMapping("/receive/{id}")
-    public String receive(@PathVariable Long id) {
+		return "redirect:/orders";
+	}
 
-        orderService.receiveOrder(id);
-        return "redirect:/orders";
-    }
+	// 入荷処理
+	@PostMapping("/receive/{id}")
+	public String receive(@PathVariable Long id) {
+
+		orderService.receiveOrder(id);
+		return "redirect:/orders";
+	}
+
+	// キャンセル処理
+	@PostMapping("/cancel/{id}")
+	public String cancel(@PathVariable Long id) {
+
+		orderService.cancelOrder(id);
+
+		return "redirect:/orders";
+	}
 }
-

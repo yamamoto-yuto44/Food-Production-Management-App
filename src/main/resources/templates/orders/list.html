@@ -2,26 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/base}">
 
-<head>
-	<title>発注管理</title>
-</head>
-
 <body>
-
 	<div layout:fragment="content">
 
 		<h1>発注管理</h1>
 
-		<!-- ========================= -->
-		<!-- メッセージ表示 -->
-		<!-- ========================= -->
+		<!-- エラー表示 -->
 		<div th:if="${error}" style="color:red; margin-bottom:15px;">
 			<span th:text="${error}"></span>
 		</div>
 
-		<!-- ========================= -->
-		<!-- 発注登録フォーム -->
-		<!-- ========================= -->
+
+		<!-- 新規発注フォーム -->
 		<div style="border:1px solid #ccc; padding:20px; width:400px; margin-bottom:40px;">
 			<h2>新規発注</h2>
 
@@ -31,7 +23,8 @@
 					<label>原料：</label>
 					<select name="materialId" required>
 						<option value="">選択してください</option>
-						<option th:each="material : ${materials}" th:value="${material.id}" th:text="${material.name}">
+						<option th:each="material : ${materials}" th:value="${material.id}"
+							th:text="${material.materialName}">
 						</option>
 					</select>
 				</div>
@@ -47,9 +40,7 @@
 			</form>
 		</div>
 
-		<!-- ========================= -->
 		<!-- 未入荷一覧 -->
-		<!-- ========================= -->
 		<h2>未入荷発注一覧</h2>
 
 		<table style="border-collapse:collapse; width:100%;">
@@ -57,7 +48,7 @@
 				<tr style="background:#f2f2f2;">
 					<th style="border:1px solid #ccc; padding:8px;">ID</th>
 					<th style="border:1px solid #ccc; padding:8px;">原料名</th>
-					<th style="border:1px solid #ccc; padding:8px;">発注数量</th>
+					<th style="border:1px solid #ccc; padding:8px;">数量</th>
 					<th style="border:1px solid #ccc; padding:8px;">発注日</th>
 					<th style="border:1px solid #ccc; padding:8px;">操作</th>
 				</tr>
@@ -71,24 +62,29 @@
 					</td>
 				</tr>
 
-				<tr th:each="order : ${orders}">
-					<td style="border:1px solid #ccc; padding:8px;" th:text="${order.id}"></td>
+				<tr th:each="o : ${orders}">
+					<td th:text="${o.id}" style="border:1px solid #ccc; padding:8px;"></td>
 
-					<td style="border:1px solid #ccc; padding:8px;" th:text="${order.material.name}"></td>
+					<td th:text="${o.material.materialName}" style="border:1px solid #ccc; padding:8px;"></td>
 
-					<td style="border:1px solid #ccc; padding:8px;" th:text="${order.orderQuantity}"></td>
+					<td th:text="${o.orderQuantity}" style="border:1px solid #ccc; padding:8px;"></td>
 
-					<td style="border:1px solid #ccc; padding:8px;" th:text="${order.orderDate}"></td>
+					<td th:text="${o.orderDate}" style="border:1px solid #ccc; padding:8px;"></td>
 
 					<td style="border:1px solid #ccc; padding:8px; text-align:center;">
 
-						<form th:action="@{/orders/receive/{id}(id=${order.id})}" method="post" style="display:inline;">
-
+						<form th:action="@{/orders/receive/{id}(id=${o.id})}" method="post" style="display:inline;">
 							<button type="submit"
 								style="padding:5px 10px; background:#4CAF50; color:white; border:none;">
 								入荷処理
 							</button>
+						</form>
 
+						<form th:action="@{/orders/cancel/{id}(id=${o.id})}" method="post" style="display:inline;">
+							<button type="submit"
+								style="padding:5px 10px; background:#f44336; color:white; border:none;">
+								キャンセル
+							</button>
 						</form>
 
 					</td>
@@ -98,7 +94,6 @@
 		</table>
 
 	</div>
-
 </body>
 
 </html>

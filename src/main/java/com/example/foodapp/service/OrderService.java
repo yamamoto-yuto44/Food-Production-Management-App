@@ -6,7 +6,6 @@ import jakarta.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.foodapp.dto.MaterialOrderDTO;
 import com.example.foodapp.entity.Material;
 import com.example.foodapp.entity.Order;
 import com.example.foodapp.entity.OrderStatus;
@@ -39,9 +38,7 @@ public class OrderService {
 		orderRepository.save(order);
 	}
 
-	// =========================
 	// 入荷処理
-	// =========================
 	public void receiveOrder(Long orderId) {
 
 		Order order = orderRepository.findById(orderId)
@@ -51,29 +48,24 @@ public class OrderService {
 		order.markAsReceived();
 
 		// 在庫増加 + 履歴記録
-        materialService.increaseStockWithHistory(
-                order.getMaterial(),
-                order.getOrderQuantity());
+		materialService.increaseStockWithHistory(
+				order.getMaterial(),
+				order.getOrderQuantity());
+	}
+
+	// 発注キャンセル
+	public void cancelOrder(Long orderId) {
+
+		Order order = orderRepository.findById(orderId)
+				.orElseThrow(() -> new IllegalArgumentException("発注が見つかりません"));
+
+		// 状態遷移はエンティティに任せる
+		order.cancel();
 	}
 
 	// 未入荷取得
 	public List<Order> getPendingOrders() {
 		return orderRepository.findByStatusOrderByOrderDateDesc(OrderStatus.ORDERED);
-	}
-
-	public void order(Long id, MaterialOrderDTO dto) {
-
-		Material material = materialRepository.findById(id)
-				.orElseThrow();
-
-		// 在庫増加
-		material.increaseStockQuantity(dto.getOrderQuantity());
-
-		// 履歴追加
-		historyRepository.save(
-	            material.createHistory(
-	                    dto.getOrderQuantity(),
-	                    ChangeType.ORDER));
 	}
 
 }

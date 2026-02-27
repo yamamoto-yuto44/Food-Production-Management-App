@@ -63,4 +63,11 @@ public class Order {
 		this.status = OrderStatus.RECEIVED;
 		this.receivedDate = LocalDate.now();
 	}
+
+	public void cancel() {
+		if (this.status != OrderStatus.ORDERED) {
+			throw new IllegalStateException("この発注はキャンセルできません");
+		}
+		this.status = OrderStatus.CANCELED;
+	}
 }
