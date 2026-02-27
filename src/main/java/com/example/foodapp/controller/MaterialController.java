@@ -19,6 +19,7 @@ import com.example.foodapp.dto.MaterialOrderDTO;
 import com.example.foodapp.entity.Material;
 import com.example.foodapp.entity.MaterialStockHistory;
 import com.example.foodapp.service.MaterialService;
+import com.example.foodapp.service.OrderService;
 
 @Controller
 @RequestMapping("/materials")
@@ -87,22 +88,37 @@ public class MaterialController {
 		return "redirect:/materials";
 	}
 
+	@PostMapping("/{id}/receive")
+	public String receive(@PathVariable Long id) {
+
+		OrderService.receiveOrder(id);
+
+		return "redirect:/orders";
+	}
+
+	@PostMapping("/{id}/cancel")
+	public String cancel(@PathVariable Long id) {
+
+		OrderService.cancelOrder(id);
+
+		return "redirect:/orders";
+	}
+
 	// 削除
 	@PostMapping("/{id}/delete")
 	public String delete(@PathVariable Long id) {
 		materialService.delete(id);
 		return "redirect:/materials";
 	}
-	
+
 	@PostMapping("/{id}/order")
 	public String orderMaterial(@PathVariable Long id,
-	                            @ModelAttribute MaterialOrderDTO dto) {
+			@ModelAttribute MaterialOrderDTO dto) {
 
-	    materialService.order(id, dto);
+		materialService.order(id, dto);
 
-	    return "redirect:/materials/" + id;
+		return "redirect:/materials/" + id;
 	}
-
 
 	// 例外処理
 	@ExceptionHandler(IllegalArgumentException.class)

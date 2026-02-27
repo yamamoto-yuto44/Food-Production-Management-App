@@ -23,9 +23,23 @@
 		<a th:href="@{/materials}" class="menu-card">
 			原料在庫数の確認・発注
 		</a>
-		
+
+		<!-- 入荷管理（未入荷バッジ付き） -->
+		<a th:href="@{/orders}"
+		   class="menu-card"
+		   th:classappend="${pendingCount > 0} ? ' menu-alert'">
+
+		    入荷管理
+
+		    <span th:if="${pendingCount > 0}"
+		          th:text="${pendingCount}"
+		          class="badge-notification">
+		    </span>
+
+		</a>
+
 		<a th:href="@{/recipes}" class="menu-card">
-		    レシピ一覧を見る
+			レシピ一覧を見る
 		</a>
 
 	</div>
