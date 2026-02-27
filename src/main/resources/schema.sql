@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS material_stock_history;
-DROP TABLE IF EXISTS purchase_order;
 DROP TABLE IF EXISTS production;
 DROP TABLE IF EXISTS recipe;
 DROP TABLE IF EXISTS orders;
@@ -27,6 +26,21 @@ CREATE TABLE material (
     CONSTRAINT uk_material_name UNIQUE (material_name)
 );
 --------------------
+
+------orders------
+CREATE TABLE orders (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    material_id BIGINT NOT NULL,
+    order_date DATE NOT NULL,
+    order_quantity INT NOT NULL,
+    received_date DATE,
+    status VARCHAR(20) NOT NULL,
+
+    CONSTRAINT fk_order_material
+        FOREIGN KEY (material_id)
+        REFERENCES material(id)
+);
+------------------
 
 ------recipe------
 CREATE TABLE recipe (
