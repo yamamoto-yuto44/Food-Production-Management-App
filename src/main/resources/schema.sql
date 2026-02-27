@@ -36,6 +36,7 @@ CREATE TABLE orders (
     received_date DATE,
     status VARCHAR(20) NOT NULL,
 
+	-- 外部キー
     CONSTRAINT fk_order_material
         FOREIGN KEY (material_id)
         REFERENCES material(id)
