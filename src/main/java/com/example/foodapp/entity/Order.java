@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+//発注用
 @Entity
 @Getter
 @NoArgsConstructor
