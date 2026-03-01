@@ -21,21 +21,29 @@
 				</div>
 				<div class="card-body">
 
-					<form th:action="@{/orders/create}" method="post">
+					<form th:action="@{/orders/create}" th:object="${orderForm}" method="post">
 
+						<!-- 原料 -->
 						<div class="mb-3">
 							<label class="form-label">原料</label>
-							<select name="materialId" class="form-select" required>
+							<select th:field="*{materialId}" class="form-select">
 								<option value="">選択してください</option>
 								<option th:each="material : ${materials}" th:value="${material.id}"
 									th:text="${material.materialName}">
 								</option>
 							</select>
+
+							<div class="text-danger" th:if="${#fields.hasErrors('materialId')}"
+								th:errors="*{materialId}">
+							</div>
 						</div>
 
+						<!-- 数量 -->
 						<div class="mb-3">
 							<label class="form-label">数量</label>
-							<input type="number" name="quantity" class="form-control" min="1" required>
+							<input type="number" th:field="*{quantity}" min="1" step="1" class="form-control">
+							<div class="text-danger" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">
+							</div>
 						</div>
 
 						<button type="submit" class="btn btn-primary">

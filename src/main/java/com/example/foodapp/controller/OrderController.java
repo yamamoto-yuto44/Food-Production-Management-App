@@ -1,13 +1,17 @@
 package com.example.foodapp.controller;
 
+import jakarta.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.foodapp.form.OrderForm;
 import com.example.foodapp.service.MaterialService;
 import com.example.foodapp.service.OrderService;
 
@@ -24,6 +28,7 @@ public class OrderController {
 	// 発注一覧（未入荷）
 	@GetMapping
 	public String list(Model model) {
+		model.addAttribute("orderForm", new OrderForm());
 		model.addAttribute("orders", orderService.getPendingOrders());
 		model.addAttribute("materials", materialService.findAll());
 		return "orders/list";
@@ -31,19 +36,18 @@ public class OrderController {
 
 	// 発注登録
 	@PostMapping("/create")
-	public String create(@RequestParam Long materialId,
-			@RequestParam int quantity,
+	public String createOrder(
+			@Valid @ModelAttribute("orderForm") OrderForm form,
+			BindingResult bindingResult,
 			Model model) {
 
-		try {
-			orderService.createOrder(materialId, quantity);
-		} catch (Exception e) {
-			model.addAttribute("error", e.getMessage());
+		if (bindingResult.hasErrors()) {
 			model.addAttribute("orders", orderService.getPendingOrders());
 			model.addAttribute("materials", materialService.findAll());
 			return "orders/list";
 		}
 
+		orderService.createOrder(form.getMaterialId(), form.getQuantity());
 		return "redirect:/orders";
 	}
 
