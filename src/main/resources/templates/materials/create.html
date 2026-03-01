@@ -26,14 +26,14 @@
 					<!-- 初期在庫 -->
 					<div class="mb-3">
 						<label class="form-label">初期在庫</label>
-						<input type="number" class="form-control" th:field="*{stockQuantity}">
+						<input type="number" th:field="*{stockQuantity}" min="0" step="1" class="form-control" >
 						<div class="text-danger small" th:errors="*{stockQuantity}"></div>
 					</div>
 
 					<!-- 安全在庫数 -->
 					<div class="mb-3">
 						<label class="form-label">安全在庫数</label>
-						<input type="number" class="form-control" th:field="*{safetyStockQuantity}">
+						<input type="number" th:field="*{safetyStockQuantity}" min="0" step="1" class="form-control" >
 						<div class="text-danger small" th:errors="*{safetyStockQuantity}"></div>
 					</div>
 

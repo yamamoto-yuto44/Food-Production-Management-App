@@ -112,11 +112,18 @@ public class MaterialController {
 	}
 
 	@PostMapping("/{id}/order")
-	public String orderMaterial(@PathVariable Long id,
-			@ModelAttribute MaterialOrderDTO dto) {
+	public String orderMaterial(
+			@PathVariable Long id,
+			@Valid @ModelAttribute MaterialOrderDTO dto,
+			BindingResult result,
+			Model model) {
+
+		if (result.hasErrors()) {
+			model.addAttribute("materialId", id);
+			return "materials/order";
+		}
 
 		materialService.order(id, dto);
-
 		return "redirect:/materials/" + id;
 	}
 
