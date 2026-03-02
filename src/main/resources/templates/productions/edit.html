@@ -46,7 +46,8 @@
 					<!-- 数量 -->
 					<div class="mb-3">
 						<label for="quantity" class="form-label">数量</label>
-						<input type="number" id="quantity" th:field="*{quantity}" min="1" step="1" class="form-control">
+						<input type="number" id="quantity" th:field="*{quantity}" min="1" step="1"
+							oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control">
 						<div class="text-danger" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">
 						</div>
 					</div>

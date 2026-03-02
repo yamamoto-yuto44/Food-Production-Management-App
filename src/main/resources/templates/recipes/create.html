@@ -52,8 +52,8 @@
 
 								<!-- 必要数量 -->
 								<label class="form-label mt-2">必要数量</label>
-								<input type="number" min="1" class="form-control"
-									th:field="*{items[__${stat.index}__].requiredQuantity}"
+								<input type="number" min="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+									class="form-control" th:field="*{items[__${stat.index}__].requiredQuantity}"
 									th:classappend="${#fields.hasErrors('items[' + stat.index + '].requiredQuantity')} ? ' is-invalid'">
 
 								<div class="invalid-feedback d-block"
@@ -61,7 +61,8 @@
 								</div>
 
 								<!-- 削除ボタン -->
-								<button type="submit" th:formaction="@{/recipes(removeIndex=${stat.index})}" class="btn btn-sm btn-danger mt-2">
+								<button type="submit" th:formaction="@{/recipes(removeIndex=${stat.index})}"
+									class="btn btn-sm btn-danger mt-2">
 									削除
 								</button>
 
