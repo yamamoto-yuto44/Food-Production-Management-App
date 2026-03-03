@@ -36,7 +36,8 @@
 								製造日
 							</label>
 
-							<input type="date" id="productionDate" th:field="*{productionDate}" class="form-control"
+							<input type="date" th:field="*{productionDate}" min="2000-01-01" max="2100-12-31"
+								class="form-control"
 								th:classappend="${#fields.hasErrors('productionDate')} ? ' is-invalid'">
 
 							<div class="invalid-feedback" th:if="${#fields.hasErrors('productionDate')}"
@@ -71,7 +72,7 @@
 								数量（BT数）
 							</label>
 
-							<input type="number" th:field="*{quantity}" min="1" step="1"
+							<input type="number" th:field="*{quantity}" min="1" step="1" max="50"
 								oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control">
 
 							<div class="text-danger" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">

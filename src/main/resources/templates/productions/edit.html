@@ -24,7 +24,8 @@
 					<!-- 製造日 -->
 					<div class="mb-3">
 						<label for="productionDate" class="form-label">製造日</label>
-						<input type="date" id="productionDate" th:field="*{productionDate}" class="form-control">
+						<input type="date" th:field="*{productionDate}" min="2000-01-01" max="2100-12-31"
+							class="form-control">
 						<div th:if="${#fields.hasErrors('productionDate')}" th:errors="*{productionDate}"
 							class="text-danger small">
 						</div>
@@ -46,7 +47,7 @@
 					<!-- 数量 -->
 					<div class="mb-3">
 						<label for="quantity" class="form-label">数量</label>
-						<input type="number" id="quantity" th:field="*{quantity}" min="1" step="1"
+						<input type="number" id="quantity" th:field="*{quantity}" min="1" step="1" max="50"
 							oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control">
 						<div class="text-danger" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">
 						</div>

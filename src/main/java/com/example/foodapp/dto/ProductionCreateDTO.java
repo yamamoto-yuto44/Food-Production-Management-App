@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,6 +21,7 @@ public class ProductionCreateDTO {
     private Long productId;
 
     @NotNull(message = "製造日を入力してください")
+    @PastOrPresent(message = "製造日は今日以前の日付を入力してください")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate productionDate;
 

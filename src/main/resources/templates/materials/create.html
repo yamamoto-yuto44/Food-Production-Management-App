@@ -26,7 +26,7 @@
 					<!-- 初期在庫 -->
 					<div class="mb-3">
 						<label class="form-label">初期在庫</label>
-						<input type="number" th:field="*{stockQuantity}" min="0" step="1"
+						<input type="number" th:field="*{stockQuantity}" min="0" step="1" max="1000"
 							oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control">
 						<div class="text-danger small" th:errors="*{stockQuantity}"></div>
 					</div>
@@ -34,7 +34,7 @@
 					<!-- 安全在庫数 -->
 					<div class="mb-3">
 						<label class="form-label">安全在庫数</label>
-						<input type="number" th:field="*{safetyStockQuantity}" min="0" step="1"
+						<input type="number" th:field="*{safetyStockQuantity}" min="0" step="1" max="1000" 
 							oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control">
 						<div class="text-danger small" th:errors="*{safetyStockQuantity}"></div>
 					</div>

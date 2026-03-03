@@ -52,7 +52,7 @@
 
 								<!-- 必要数量 -->
 								<label class="form-label mt-2">必要数量</label>
-								<input type="number" min="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+								<input type="number" min="1" max="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
 									class="form-control" th:field="*{items[__${stat.index}__].requiredQuantity}"
 									th:classappend="${#fields.hasErrors('items[' + stat.index + '].requiredQuantity')} ? ' is-invalid'">
 
