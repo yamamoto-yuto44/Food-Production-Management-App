@@ -170,5 +170,10 @@ public class MaterialService {
 	            quantity,
 	            ChangeType.RECEIVE));
 	}
+	
+	public void order(Long materialId, Integer quantity) {
+		
+	}
+
 
 }
