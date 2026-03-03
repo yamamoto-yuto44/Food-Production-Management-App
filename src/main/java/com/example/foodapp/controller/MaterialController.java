@@ -21,15 +21,15 @@ import com.example.foodapp.entity.MaterialStockHistory;
 import com.example.foodapp.service.MaterialService;
 import com.example.foodapp.service.OrderService;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
 @RequestMapping("/materials")
+@RequiredArgsConstructor
 public class MaterialController {
 
 	private final MaterialService materialService;
-
-	public MaterialController(MaterialService materialService) {
-		this.materialService = materialService;
-	}
+	private final OrderService orderService;
 
 	// 原料一覧表示
 	@GetMapping
@@ -91,7 +91,7 @@ public class MaterialController {
 	@PostMapping("/{id}/receive")
 	public String receive(@PathVariable Long id) {
 
-		OrderService.receiveOrder(id);
+		orderService.receiveOrder(id);
 
 		return "redirect:/orders";
 	}
@@ -99,7 +99,7 @@ public class MaterialController {
 	@PostMapping("/{id}/cancel")
 	public String cancel(@PathVariable Long id) {
 
-		OrderService.cancelOrder(id);
+		orderService.cancelOrder(id);
 
 		return "redirect:/orders";
 	}
@@ -123,7 +123,9 @@ public class MaterialController {
 			return "materials/order";
 		}
 
-		materialService.order(id, dto);
+		materialService.order(id, dto.getQuantity());
+
+		
 		return "redirect:/materials/" + id;
 	}
 

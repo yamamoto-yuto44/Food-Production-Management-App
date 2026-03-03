@@ -20,19 +20,16 @@ import com.example.foodapp.entity.Production;
 import com.example.foodapp.service.ProductService;
 import com.example.foodapp.service.ProductionService;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
 @RequestMapping("/productions")
+@RequiredArgsConstructor
 public class ProductionController {
 
 	/** DI */
 	private final ProductionService productionService;
 	private final ProductService productService;
-
-	public ProductionController(ProductionService productionService,
-			ProductService productService) {
-		this.productionService = productionService;
-		this.productService = productService;
-	}
 
 	// ======================================
 	// 一覧表示
