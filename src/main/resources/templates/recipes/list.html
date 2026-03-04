@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/base}">
+	layout:decorate="~{layout/base}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 	<title>レシピ一覧</title>
@@ -14,7 +14,7 @@
 			<h1 class="fw-bold">レシピ一覧</h1>
 
 			<div class="d-flex gap-2">
-				<a th:href="@{/recipes/create}" class="btn btn-primary">
+				<a th:href="@{/recipes/create}" sec:authorize="hasRole('ADMIN')" class="btn btn-primary">
 					＋ レシピ登録
 				</a>
 				<a th:href="@{/}" class="btn btn-outline-secondary">

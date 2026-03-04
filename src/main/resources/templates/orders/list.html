@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/base}">
+	layout:decorate="~{layout/base}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
 	<div layout:fragment="content">
 
 		<div class="container mt-4">
 
-			<h1 class="mb-4">発注管理</h1>
+			<div class="d-flex justify-content-between align-items-center mb-4">
+				<h1 class="mb-0">発注管理</h1>
+				<a th:href="@{/}" class="btn btn-outline-secondary">
+					ホームに戻る
+				</a>
+			</div>
 
 			<!-- エラー表示 -->
 			<div th:if="${error}" class="alert alert-danger">
@@ -41,13 +46,13 @@
 						<!-- 数量 -->
 						<div class="mb-3">
 							<label class="form-label">数量</label>
-							<input type="number" th:field="*{quantity}" min="1" step="1" max="1000" 
+							<input type="number" th:field="*{quantity}" min="1" step="1" max="1000"
 								oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control">
 							<div class="text-danger" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">
 							</div>
 						</div>
 
-						<button type="submit" class="btn btn-primary">
+						<button type="submit" class="btn btn-primary" sec:authorize="hasRole('ADMIN')">
 							発注する
 						</button>
 

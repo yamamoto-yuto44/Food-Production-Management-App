@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/base}">
+	layout:decorate="~{layout/base}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 	<title>原料一覧</title>
@@ -16,7 +16,7 @@
 				<h2 class="fw-bold">原料一覧</h2>
 
 				<div>
-					<a th:href="@{/materials/create}" class="btn btn-primary me-2">
+					<a th:href="@{/materials/create}" sec:authorize="hasRole('ADMIN')" class="btn btn-primary me-2">
 						＋ 新規追加
 					</a>
 
