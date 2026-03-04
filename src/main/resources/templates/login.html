@@ -1,26 +1,58 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-	<meta charset="UTF-8">
-	<title>ログイン画面</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base}">
 
 <body>
-	<form th:action="@{/login}" method="post">
-		<div>
-			<label>ユーザー名</label>
-			<input type="text" name="username">
+	<div layout:fragment="content">
+
+		<div class="container mt-5" style="max-width: 500px;">
+
+			<div class="card shadow">
+				<div class="card-header text-center">
+					<h3 class="mb-0">ログイン</h3>
+				</div>
+
+				<div class="card-body">
+
+					<!-- エラーメッセージ -->
+					<div th:if="${param.error}" class="alert alert-danger">
+						ユーザー名またはパスワードが正しくありません。
+					</div>
+
+					<!-- ログアウトメッセージ -->
+					<div th:if="${param.logout}" class="alert alert-success">
+						ログアウトしました。
+					</div>
+
+					<form th:action="@{/login}" method="post">
+
+						<!-- ユーザー名 -->
+						<div class="mb-3">
+							<label class="form-label">ユーザー名</label>
+							<input type="text" name="username" class="form-control" required>
+						</div>
+
+						<!-- パスワード -->
+						<div class="mb-4">
+							<label class="form-label">パスワード</label>
+							<input type="password" name="password" class="form-control" required>
+						</div>
+
+						<!-- ログインボタン -->
+						<div class="d-grid">
+							<button type="submit" class="btn btn-primary">
+								ログイン
+							</button>
+						</div>
+
+					</form>
+
+				</div>
+			</div>
+
 		</div>
 
-		<div>
-			<label>パスワード</label>
-			<input type="password" name="password">
-		</div>
-
-		<button type="submit">ログイン</button>
-	</form>
-
+	</div>
 </body>
 
 </html>

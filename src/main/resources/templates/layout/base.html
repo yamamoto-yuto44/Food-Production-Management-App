@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 	<meta charset="UTF-8">
@@ -15,14 +16,60 @@
 
 	<header class="bg-dark text-white">
 		<div class="container py-3">
-			<h2 class="mb-2">食品製造管理システム</h2>
 
-			<nav>
+			<div class="d-flex justify-content-between align-items-center">
+
+				<!-- タイトル -->
+				<h2 class="mb-0">食品製造管理システム</h2>
+
+				<!-- 右側ユーザー情報 -->
+				<div>
+
+					<!-- ログイン中のみ表示 -->
+					<span class="me-3" sec:authorize="isAuthenticated()">
+						<span sec:authentication="name"></span> 
+					</span>
+
+					<!-- ログアウトボタン -->
+					<form th:action="@{/logout}" method="post" class="d-inline" sec:authorize="isAuthenticated()">
+						<button type="submit" class="btn btn-outline-light btn-sm">
+							ログアウト
+						</button>
+					</form>
+
+					<!-- 未ログイン時 -->
+					<a th:href="@{/login}" class="btn btn-outline-light btn-sm" sec:authorize="isAnonymous()">
+						ログイン
+					</a>
+
+				</div>
+
+			</div>
+
+			<!-- ナビゲーション -->
+			<nav class="mt-3">
+
 				<a class="text-white me-3" th:href="@{/}">ホーム</a>
-				<a class="text-white me-3" th:href="@{/productions}">生産履歴</a>
-				<a class="text-white me-3" th:href="@{/materials}">原料一覧</a>
-				<a class="text-white" th:href="@{/recipes}">レシピ一覧</a>
+
+				<a class="text-white me-3" th:href="@{/productions}" sec:authorize="hasAnyRole('USER','ADMIN')">
+					生産履歴
+				</a>
+
+				<a class="text-white me-3" th:href="@{/materials}" sec:authorize="hasAnyRole('USER','ADMIN')">
+					原料一覧
+				</a>
+
+				<a class="text-white me-3" th:href="@{/recipes}" sec:authorize="hasAnyRole('USER','ADMIN')">
+					レシピ一覧
+				</a>
+
+				<!-- ADMIN専用 -->
+				<a class="text-white" th:href="@{/orders}" sec:authorize="hasRole('ADMIN')">
+					発注管理
+				</a>
+
 			</nav>
+
 		</div>
 	</header>
 
