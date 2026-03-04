@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/base}">
+	layout:decorate="~{layout/base}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 	<title>ホーム</title>
@@ -21,22 +21,20 @@
 		</a>
 
 		<a th:href="@{/materials}" class="menu-card">
-			原料在庫数の確認・発注
+			原料在庫数の確認
 		</a>
 
 		<!-- 入荷管理（未入荷バッジ付き） -->
-		<a th:href="@{/orders}"
-		   class="menu-card"
-		   th:classappend="${pendingCount > 0} ? ' menu-alert'">
+		<div sec:authorize="hasRole('ADMIN')">
+			<a th:href="@{/orders}" class="menu-card" th:classappend="${pendingCount > 0} ? ' menu-alert'">
 
-		    入荷管理
+				入荷管理
 
-		    <span th:if="${pendingCount > 0}"
-		          th:text="${pendingCount}"
-		          class="badge-notification">
-		    </span>
+				<span th:if="${pendingCount > 0}" th:text="${pendingCount}" class="badge-notification">
+				</span>
 
-		</a>
+			</a>
+		</div>
 
 		<a th:href="@{/recipes}" class="menu-card">
 			レシピ一覧を見る
