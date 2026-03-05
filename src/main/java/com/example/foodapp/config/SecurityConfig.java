@@ -22,20 +22,20 @@ public class SecurityConfig {
 		http
 				.authorizeHttpRequests(auth -> auth
 						// ログインは誰でもOK
-				        .requestMatchers("/login").permitAll()
+						.requestMatchers("/login").permitAll()
 
-				        // 発注管理はADMINのみ
-				        .requestMatchers("/orders/**").hasRole("ADMIN")
-				        .requestMatchers("/materials/*/order").hasRole("ADMIN")
+						// 発注管理はADMINのみ
+						.requestMatchers("/orders/**").hasRole("ADMIN")
+						.requestMatchers("/materials/*/order").hasRole("ADMIN")
 
-				        // レシピ新規登録・削除はADMINのみ
-				        .requestMatchers("/recipes/create").hasRole("ADMIN")
-				        .requestMatchers("/recipes/*/delete").hasRole("ADMIN")
-				        
-				        // 原料の新規登録・削除はADMINのみ
+						// レシピ新規登録・削除はADMINのみ
+						.requestMatchers("/recipes/create").hasRole("ADMIN")
+						.requestMatchers("/recipes/*/delete").hasRole("ADMIN")
+
+						// 原料の新規登録・削除はADMINのみ
 						.requestMatchers("/materials/create").hasRole("ADMIN")
 						.requestMatchers("/materials/*/delete").hasRole("ADMIN")
-						
+
 						// それ以外はログインしていればOK
 						.anyRequest().authenticated())
 				.formLogin(form -> form
@@ -43,7 +43,10 @@ public class SecurityConfig {
 						.defaultSuccessUrl("/", true)
 						.permitAll())
 				.logout(logout -> logout
-						.logoutSuccessUrl("/login?logout"));
+						.logoutSuccessUrl("/login?logout"))
+
+				.exceptionHandling(ex -> ex
+						.accessDeniedPage("/error/403"));
 
 		return http.build();
 	}
