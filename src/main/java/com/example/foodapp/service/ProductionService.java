@@ -38,7 +38,7 @@ public class ProductionService {
 	}
 
 	public List<ProductionDTO> findAll() {
-		return productionRepository.findAll().stream()
+		return productionRepository.findAllByOrderByProductionDateDesc().stream()
 				.map(this::convertToDTO)
 				.toList();
 	}
@@ -137,34 +137,31 @@ public class ProductionService {
 
 	private void reduceStock(Product product, int quantity) {
 
-	    List<Recipe> recipes = recipeRepository.findByProduct(product);
+		List<Recipe> recipes = recipeRepository.findByProduct(product);
 
-	    // ① 先に不足チェック
-	    for (Recipe recipe : recipes) {
+		// ① 先に不足チェック
+		for (Recipe recipe : recipes) {
 
-	        int totalAmount = recipe.getRequiredQuantity() * quantity;
+			int totalAmount = recipe.getRequiredQuantity() * quantity;
 
-	        Material material = recipe.getMaterial();
+			Material material = recipe.getMaterial();
 
-	        if (material.getStockQuantity() < totalAmount) {
-	            throw new IllegalArgumentException(
-	                material.getMaterialName() + " の在庫が不足しています"
-	            );
-	        }
-	    }
+			if (material.getStockQuantity() < totalAmount) {
+				throw new IllegalArgumentException(
+						material.getMaterialName() + " の在庫が不足しています");
+			}
+		}
 
-	    // ② 問題なければ減算
-	    for (Recipe recipe : recipes) {
+		// ② 問題なければ減算
+		for (Recipe recipe : recipes) {
 
-	        int totalAmount = recipe.getRequiredQuantity() * quantity;
+			int totalAmount = recipe.getRequiredQuantity() * quantity;
 
-	        materialService.consume(
-	                recipe.getMaterial(),
-	                totalAmount
-	        );
-	    }
+			materialService.consume(
+					recipe.getMaterial(),
+					totalAmount);
+		}
 	}
-
 
 	private void restoreStock(Product product, int quantity) {
 
