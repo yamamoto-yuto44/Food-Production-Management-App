@@ -40,7 +40,6 @@
 								<th>原料名</th>
 								<th class="text-end">在庫数</th>
 								<th class="text-center">在庫状態</th>
-								<th class="text-center">削除</th>
 							</tr>
 						</thead>
 
@@ -87,18 +86,6 @@
 									</span>
 
 								</td>
-
-								<td class="text-center">
-									<form th:action="@{/materials/{id}/delete(id=${m.id})}" method="post"
-										onsubmit="return confirm('本当に削除しますか？');">
-
-										<button type="submit" class="btn btn-sm btn-outline-danger">
-											削除
-										</button>
-
-									</form>
-								</td>
-
 
 							</tr>
 

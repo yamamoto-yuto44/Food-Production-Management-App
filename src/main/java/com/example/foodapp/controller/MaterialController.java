@@ -104,13 +104,6 @@ public class MaterialController {
 		return "redirect:/orders";
 	}
 
-	// 削除
-	@PostMapping("/{id}/delete")
-	public String delete(@PathVariable Long id) {
-		materialService.delete(id);
-		return "redirect:/materials";
-	}
-
 	@PostMapping("/{id}/order")
 	public String orderMaterial(
 			@PathVariable Long id,

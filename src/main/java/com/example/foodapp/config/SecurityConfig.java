@@ -32,9 +32,8 @@ public class SecurityConfig {
 						.requestMatchers("/recipes/create").hasRole("ADMIN")
 						.requestMatchers("/recipes/*/delete").hasRole("ADMIN")
 
-						// 原料の新規登録・削除はADMINのみ
+						// 原料の新規登録はADMINのみ
 						.requestMatchers("/materials/create").hasRole("ADMIN")
-						.requestMatchers("/materials/*/delete").hasRole("ADMIN")
 
 						// それ以外はログインしていればOK
 						.anyRequest().authenticated())
