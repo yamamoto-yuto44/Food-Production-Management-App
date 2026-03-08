@@ -107,7 +107,47 @@
 
 ## 画面イメージ
 
-（ここにスクリーンショットを貼る）
+### ログイン画面
+ユーザー名とパスワードを入力してログインします。
+
+![login](images/login.png)
+
+---
+
+### 生産履歴画面
+登録された生産記録を一覧で確認できます。
+製造日順に並び替えて表示しています。
+
+![production-list](images/production-list.png)
+
+---
+
+### 生産登録画面
+製品・製造日・数量を入力して生産登録を行います。
+
+![production-create](images/production-create.png)
+
+---
+
+### 原料一覧
+原料の現在在庫数を一覧で確認できます。
+
+![material-list](images/material-list.png)
+
+---
+
+### 原料詳細画面
+原料の在庫増減履歴を確認できます。
+生産による在庫減少や入荷による在庫増加を記録しています。
+
+![material-stock-history](images/material-stock-history.png)
+
+---
+
+### 発注管理（管理者機能）
+原料の発注登録と入荷処理を行うことができます。
+
+![orders](images/orders.png)
 
 ---
 
