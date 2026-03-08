@@ -52,7 +52,7 @@
 				<a class="text-white me-3" th:href="@{/}">ホーム</a>
 
 				<a class="text-white me-3" th:href="@{/productions}" sec:authorize="hasAnyRole('USER','ADMIN')">
-					生産履歴
+					生産記録一覧
 				</a>
 
 				<a class="text-white me-3" th:href="@{/materials}" sec:authorize="hasAnyRole('USER','ADMIN')">
